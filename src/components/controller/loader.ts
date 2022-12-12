@@ -14,7 +14,7 @@ class Loader {
         this.load('GET', data.config.endpoint, data.callback, data.config.options);
     }
 
-    errorHandler(res) {
+    errorHandler(res: any) {
         if (!res.ok) {
             if (res.status === 401 || res.status === 404)
                 console.log(`Sorry, but there is ${res.status} error: ${res.statusText}`);
@@ -24,7 +24,7 @@ class Loader {
         return res;
     }
 
-    makeUrl(options, endpoint: string) {
+    makeUrl(options: any, endpoint: string) {
         const urlOptions = { ...this.options, ...options };
         let url = `${this.baseLink}${endpoint}?`;
 
