@@ -1,16 +1,17 @@
+import { Options } from '../../interfaces/options.interface'
+import { GetRespApi } from '../../interfaces/get-resp-api.interface';
+
 class Loader {
-    constructor(baseLink, options) {
+    public baseLink: string;
+    public options: Options; 
+
+    constructor(baseLink: string,  options: Options) {
         this.baseLink = baseLink;
-        this.options = options;
+        this.options = options;    
     }
 
-    getResp(
-        { endpoint, options = {} },
-        callback = () => {
-            console.error('No callback for GET response');
-        }
-    ) {
-        this.load('GET', endpoint, callback, options);
+    public getResp(data: GetRespApi) {
+        this.load('GET', data.config.endpoint, data.callback, data.config.options);
     }
 
     errorHandler(res) {
@@ -23,7 +24,7 @@ class Loader {
         return res;
     }
 
-    makeUrl(options, endpoint) {
+    makeUrl(options, endpoint: string) {
         const urlOptions = { ...this.options, ...options };
         let url = `${this.baseLink}${endpoint}?`;
 
@@ -34,7 +35,7 @@ class Loader {
         return url.slice(0, -1);
     }
 
-    load(method, endpoint, callback, options = {}) {
+    load(method: string, endpoint: string, callback: any, options: Options) {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
             .then((res) => res.json())
